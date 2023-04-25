@@ -73,3 +73,81 @@ create table [OldMessages]
 	Msg nvarchar(255) null
 )
 GO
+CREATE INDEX Idx_GenderId
+ON UserProfile (GenderId);
+GO
+IF OBJECT_ID('TRG_DeleteSyncMessages') IS NOT NULL
+DROP TRIGGER TRG_DeleteSyncMessages
+GO
+CREATE TRIGGER TRG_DeleteSyncMessages 
+ON dbo.[Messages]
+AFTER DELETE
+AS
+BEGIN
+INSERT INTO dbo.[OldMessages]
+SELECT * FROM DELETED
+END
+GO
+insert into City values (3000, 'Helsingør')
+insert into City values (3200, 'Helsinge')
+insert into City values (3300, 'Frederiksværk')
+insert into City values (3400, 'Hillerød')
+insert into City values (3450, 'Allerød')
+insert into City values (3460, 'Birkerød')
+GO
+insert into Gender (GenderName, Elaborate) values ('Male', 'I think of myself as 100% man')
+insert into Gender (GenderName, Elaborate) values ('Female', 'I think of myself as 100% woman')
+insert into Gender (GenderName, Elaborate) values ('Gay', 'Man - I like men')
+insert into Gender (GenderName, Elaborate) values ('Lesbian', 'Woman - (man) I like women')
+insert into Gender (GenderName, Elaborate) values ('Asexual', 'I think of myself as having no sex ')
+insert into Gender (GenderName, Elaborate) values ('TransSexual', 'modified body to transition from one gender or sex to another')
+insert into Gender (GenderName, Elaborate) values ('hermaphrodite ', 'having both male and female sex organs or other sexual characteristics')
+GO
+insert into [Users] (FirstName, LastName, Email, [Login], [Password],[Password2],CreateDate)
+values
+('Palle', 'Westermann', 'pwe@tec.dk', 'prut', 'prut123.', 'prut123.', getdate())
+
+insert into [Users] (FirstName, LastName, Email, [Login], [Password],[Password2],CreateDate)
+values
+('Hansi', 'Hinterseer', 'hansi@lousymusic.com', 'hansi', 'hansi123.', 'hansi123.', getdate())
+
+insert into [Users] (FirstName, LastName, Email, [Login], [Password],[Password2],CreateDate)
+values
+('Ulla', 'Drac', 'drac@lousymusic.com', 'drac', 'drac123.', 'drac123.', getdate())
+
+insert into [Users] (FirstName, LastName, Email, [Login], [Password],[Password2],CreateDate)
+values
+('Benny', 'Hill', 'Hill@humour.com', 'Hill', 'Hill123.', 'Hill123.', getdate())
+
+insert into [Users] (FirstName, LastName, Email, [Login], [Password],[Password2],CreateDate)
+values
+('Delilah', 'Mums', 'lilah@bt.dk', 'Laila', 'Laila123.', 'Laila123.', getdate())
+
+insert into [Users] (FirstName, LastName, Email, [Login], [Password],[Password2],CreateDate)
+values
+('Karla', 'Kumme', 'karla@tec.dk', 'karla', 'karla123.', 'karla123.', getdate())
+Go
+insert into UserProfile (UserName, BirthDate, Height, AboutMe, CityId, GenderId, UsersId)
+values
+('KrudtUglen', '1967-07-26', 180, 'Just tooooo nice', 3400, 1, 1)
+
+insert into UserProfile (UserName, BirthDate, Height, AboutMe, CityId, GenderId, UsersId)
+values
+('BigTrouble', '1977-10-26', 190, 'Tallish girlie', 3450, 4, 2)
+
+insert into UserProfile (UserName, BirthDate, Height, AboutMe, CityId, GenderId, UsersId)
+values
+('Singasongman', '1897-11-07', 193, 'Musika para me', 3000, 3, 3)
+
+insert into UserProfile (UserName, BirthDate, Height, AboutMe, CityId, GenderId, UsersId)
+values
+('UllaBulla', '2001-11-07', 173, 'Bloody me', 3200, 4, 4)
+
+insert into UserProfile (UserName, BirthDate, Height, AboutMe, CityId, GenderId, UsersId)
+values
+('Bennyman', '2003-10-17', 93, 'Up HIll', 3460, 3, 5)
+
+insert into UserProfile (UserName, BirthDate, Height, AboutMe, CityId, GenderId, UsersId)
+values
+('Delilah', '1923-11-11', 93, 'Oldie', 3460, 2, 6)
+GO
